@@ -10,8 +10,8 @@ class NotificationConfig(AppConfig):
     def ready(self):
         print("ASDASD")
         # if not self.is_running_test_server():
-        server_thread = threading.Thread(target=serve, daemon=True)
-        server_thread.start()
+        # server_thread = threading.Thread(target=serve, daemon=True)
+        # server_thread.start()
 
     def is_running_test_server(self):
         import sys
