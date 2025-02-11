@@ -34,17 +34,17 @@ class NotificationServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.SendNotification = channel.unary_unary(
-                '/NotificationService/SendNotification',
-                request_serializer=notification__pb2.NotificationRequest.SerializeToString,
-                response_deserializer=notification__pb2.NotificationResponse.FromString,
+        self.Subscribe = channel.unary_stream(
+                '/NotificationService/Subscribe',
+                request_serializer=notification__pb2.SubscriptionRequest.SerializeToString,
+                response_deserializer=notification__pb2.Notification.FromString,
                 _registered_method=True)
 
 
 class NotificationServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def SendNotification(self, request, context):
+    def Subscribe(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -53,10 +53,10 @@ class NotificationServiceServicer(object):
 
 def add_NotificationServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'SendNotification': grpc.unary_unary_rpc_method_handler(
-                    servicer.SendNotification,
-                    request_deserializer=notification__pb2.NotificationRequest.FromString,
-                    response_serializer=notification__pb2.NotificationResponse.SerializeToString,
+            'Subscribe': grpc.unary_stream_rpc_method_handler(
+                    servicer.Subscribe,
+                    request_deserializer=notification__pb2.SubscriptionRequest.FromString,
+                    response_serializer=notification__pb2.Notification.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -70,7 +70,7 @@ class NotificationService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def SendNotification(request,
+    def Subscribe(request,
             target,
             options=(),
             channel_credentials=None,
@@ -80,12 +80,12 @@ class NotificationService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(
+        return grpc.experimental.unary_stream(
             request,
             target,
-            '/NotificationService/SendNotification',
-            notification__pb2.NotificationRequest.SerializeToString,
-            notification__pb2.NotificationResponse.FromString,
+            '/NotificationService/Subscribe',
+            notification__pb2.SubscriptionRequest.SerializeToString,
+            notification__pb2.Notification.FromString,
             options,
             channel_credentials,
             insecure,

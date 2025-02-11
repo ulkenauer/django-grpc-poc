@@ -1,13 +1,13 @@
 syntax = "proto3";
 
 service NotificationService {
-  rpc SendNotification (NotificationRequest) returns (NotificationResponse) {}
+  rpc Subscribe(SubscriptionRequest) returns (stream Notification);
 }
 
-message NotificationRequest {
-  string message = 1;
+message SubscriptionRequest {
+  string user_id = 1;
 }
 
-message NotificationResponse {
-  bool success = 1;
+message Notification {
+  string content = 1;
 }
